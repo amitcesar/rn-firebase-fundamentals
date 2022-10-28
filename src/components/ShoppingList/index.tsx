@@ -11,7 +11,9 @@ export function ShoppingList() {
   const handleGetAllProducts = async () => {
     const subscribe = firestore()
       .collection("products")
-      .orderBy("description")
+      .orderBy("quantity")
+      .startAfter(1)
+      .endBefore(4)
       .onSnapshot((querySnapshot) => {
         const data = querySnapshot.docs.map((doc) => {
           return {
