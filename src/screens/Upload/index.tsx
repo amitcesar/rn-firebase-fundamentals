@@ -34,7 +34,7 @@ export function Upload() {
     const fileName = new Date().getTime();
     const MIME = image.match(/\.(?:.(?!\.))+$/);
     const reference = storage().ref(`images/${fileName}.${MIME}`);
-    console.log(MIME);
+
     const uploadTask = reference.putFile(image);
 
     uploadTask.on("state_changed", (taskSnapshot) => {
@@ -48,7 +48,8 @@ export function Upload() {
         `${taskSnapshot.bytesTransferred} transferido de ${taskSnapshot.totalBytes}`
       );
 
-      uploadTask.then(() => {
+      uploadTask.then(async () => {
+        const imageUrl = await reference.getDownloadURL();
         Alert.alert("Upload concluído com sucesso!");
       });
     });
